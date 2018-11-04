@@ -1,12 +1,12 @@
 <div align="center">
 	<h1>mantullockscreen</h1>
-	<p>Fork from [mantablockscreen](https://github.com/reorr/mantablockscreen) that mantul(mantap betul)</p>
+	<p>Fork from ![mantablockscreen](https://github.com/reorr/mantablockscreen) that mantul(mantap betul)</p>
 </div>
 
 ## Take a Look
-### clearlock
+### Clearlock
 ![mantullockscreen stackclock](Screenshot/clearlock.png)
-### userimagelock
+### User-imagelock
 ![mantullockscreen circleclock](Screenshot/userimagelock.png)
 
 ## Dependencies
