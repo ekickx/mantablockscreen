@@ -1,7 +1,13 @@
 <div align="center">
-	<h1>mantablockscreen</h1>
-	<p>Another i3lock-color wrapper that mantab</p>
+	<h1>mantullockscreen</h1>
+	<p>Fork from [mantablockscreen](https://github.com/reorr/mantablockscreen) that mantul(mantap betul)</p>
 </div>
+
+## Take a Look
+### clearlock
+![mantullockscreen stackclock](Screenshot/clearlock.png)
+### userimagelock
+![mantullockscreen circleclock](Screenshot/userimagelock.png)
 
 ## Dependencies
 - `bash`
@@ -13,39 +19,25 @@
 ### Optional
 - `compton`
 
-## Installation
+## Build
 1. Install the required dependencies
 2. Clone this repo to your local storage
 ```
-$ git clone https://github.com/reorr/mantablockscreen
-$ cd mantablockscreen
+git clone https://github.com/ekickx/mantullockscreen
+cd mantullockscreen
 ```
-3. Run `$ sudo make install`
+3. Run `sudo make install`
 
 ## Usage
-To create cached images run command below <br>
-`$ mantablockscreen -i PATH/TO/YOUR/IMAGE` <br>
-After that you can run `mantablockscreen` with or without argument below <br>
+Create cached images first with run command below <br>
+`mantullockscreen -i PATH/TO/YOUR/IMAGE` <br>
+After that you can run `mantullockscreen` with <br>
 ```
-$ mantablockscreen
-$ mantablockscreen sc
-$ mantablockscreen cc
+mantullockscreen -c
+```
+or
+```
+mantullockscreen -u
 ```
 To enable slowfade effect you must use compton with fade enabled and run it with --dbus argument `compton --dbus`
 
-### in action
-<div align="center">
-	<img src="inaction.gif">
-</div>
-
-## Preview
-### default
-![mantablockscreen default](Screenshot/default.png)
-### stackclock
-![mantablockscreen stackclock](Screenshot/stackclock.png)
-### circleclock
-![mantablockscreen circleclock](Screenshot/circleclock.png)
-
-## Credit
-- inspired by [betterlockscreen](https://github.com/pavanjadhaw/betterlockscreen)
-- slowfade script by [Nanda Okitavera](https://github.com/yuune)

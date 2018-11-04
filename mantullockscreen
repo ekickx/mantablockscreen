@@ -1,0 +1,106 @@
+#!/bin/bash
+eval $(xdotool getdisplaygeometry --shell)
+cropuser=/tmp/$USER-pic-crop.png
+imagepatch=$HOME/.cache/mantullockscreen
+image=$imagepatch/resized.png
+imageuser=$imagepatch/resized-user.png
+
+red=d23c3dff
+yellow=d6af4cf0
+redalpha=d23c3d7f
+background=00000000
+foreground=ffffffff
+
+img() {
+  if [[ ! -d $HOME/.cache/mantullockscreen ]]; then
+		mkdir $HOME/.cache/mantullockscreen
+	fi
+  res="$WIDTH""x""$HEIGHT"
+  convert "$1" -resize "$res""^" -gravity center -extent "$res" -filter Gaussian -blur 0x6 "$image"
+}
+
+cropusr() {
+	ava_home=$HOME/.face
+	ava_var=/var/lib/AccountsService/icons/$USER
+	userpic=/usr/share/mantulassets/userpic.png
+	if [[ -e $ava_home ]]; then
+		userpic=$ava_home
+	elif [[ -e $ava_var ]]; then
+		userpic=$ava_var
+	fi
+
+	convert $userpic -resize 100x100 -gravity Center \( \
+		-size 100x100 xc:Black \
+    -fill White \
+    -draw "circle 50 50 50 1" \
+		-alpha Copy\
+	\) -compose CopyOpacity -composite -trim $cropuser
+}
+
+imgusr() {
+  cropusr
+  composite -geometry "+$((WIDTH/2-50))+$((HEIGHT/2-72))" $cropuser $image $imageuser
+}
+
+clrlock() {
+  i3lock \
+  -i $image \
+  --veriftext="" --wrongtext="" --noinputtext="" --force-clock \
+	--indpos="w/2:h/2-5" --timepos="w/2:h/2-10" --datepos="w/2:h/2+30" --greeterpos="w/2:h/2+140" \
+  --insidecolor=$background --ringcolor=$foreground \
+  --keyhlcolor=$red --bshlcolor=$red --separatorcolor=$background \
+  --insidevercolor=$background --insidewrongcolor=$redalpha \
+  --ringvercolor=$yellow --ringwrongcolor=$foreground  \
+  --verifcolor="$foreground" --timecolor="$foreground" --datecolor="$foreground" --greetercolor=$foreground \
+  --greetertext="Hello $USER" --greetersize=45 \
+	--timestr="%H | %M" --timesize=40 \
+	--datestr="%a, %d %b" --datesize=25 \
+  --line-uses-inside --radius 75 --ring-width 2 --indicator \
+	--clock --date-font="Abel" --time-font="Abel" --greeter-font="Abel"
+}
+
+usrlock() {
+  i3lock \
+  -i $imageuser \
+  --veriftext="" --wrongtext="" --noinputtext="" --force-clock \
+	--indpos="w/2:h/2-25" --timepos="w-100:h-70" --datepos="w-115:h-40" --greeterpos="w/2:h/2+120" \
+  --insidecolor=$background --ringcolor=$foreground \
+  --keyhlcolor=$red --bshlcolor=$red --separatorcolor=$background \
+  --insidevercolor=$background --insidewrongcolor=$redalpha \
+  --ringvercolor=$yellow --ringwrongcolor=$foreground  \
+  --verifcolor="$foreground" --timecolor="$foreground" --datecolor="$foreground" --greetercolor=$foreground \
+  --timestr="%H:%M" --timesize=50 \
+  --datestr="%a, %b %d" --datesize=30 \
+  --greetertext="Hello $USER" --greetersize=45\
+  --line-uses-ring --radius 70 --ring-width 3 --indicator \
+  --clock --date-font="SF Pro Display" --time-font="SF Pro Display" --greeter-font="SF Pro Display"
+}
+
+slowfade () {
+    dis=$(echo -n "$DISPLAY" | tr -c '[:alnum:]' _)
+    ifc='com.github.chjj.compton'
+    obj='/com/github/chjj/compton'
+    if [[ "$1" == "start" ]]; then
+        dbus-send --print-reply --dest=$ifc.$dis \
+            $obj $ifc.opts_set string:fade_in_step double:0.02
+        dbus-send --print-reply --dest=$ifc.$dis \
+            $obj $ifc.opts_set string:fade_out_step double:0.02
+    else
+        dbus-send --print-reply --dest=$ifc.$dis \
+            $obj $ifc.opts_set string:fade_in_step double:0.1
+        dbus-send --print-reply --dest=$ifc.$dis \
+            $obj $ifc.opts_set string:fade_out_step double:0.1
+    fi
+}
+
+slowfade start
+case $1 in
+  -i )
+    img "$2" && imgusr;;
+  -c )
+    clrlock ;;
+  -u )
+    usrlock
+esac
+sleep 1
+slowfade end
