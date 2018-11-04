@@ -1,6 +1,6 @@
 <div align="center">
 	<h1>mantullockscreen</h1>
-	<p>A Fork from <a href="https://github.com/reorr/mantablockscreen">mantablockscreen</a> that mantul(mantap betul)</p>
+	<p>A Fork from <a href="https://github.com/reorr/mantablockscreen">mantablockscreen</a> that mantul (mantap betul)</p>
 </div>
 
 ## Take a Look
